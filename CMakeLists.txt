@@ -39,6 +39,7 @@ message("----------------------------------")
 
 # Include generated *.pb.h files
 include_directories("${CMAKE_CURRENT_BINARY_DIR}/src/")
+include_directories("${CMAKE_CURRENT_BINARY_DIR}/include/task.h")
 
 # hw_grpc_proto
 add_library(hw_grpc_proto
@@ -55,7 +56,7 @@ target_link_libraries(hw_grpc_proto
 # Targets (client|server)
 foreach(_target
   client server)
-  add_executable(${_target} "../src/${_target}.cpp")
+  add_executable(${_target} "../src/${_target}.cpp" "../src/task.cpp")
   target_link_libraries(${_target}
     hw_grpc_proto
     absl::check

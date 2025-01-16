@@ -3,6 +3,7 @@
 #include <string>
 #include "../include/grpcpp/grpcpp.h"
 #include "greet.grpc.pb.h"
+#include "../include/task.h"
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -32,12 +33,14 @@ void RunServer()
     builder.RegisterService(&service);
 
     std::unique_ptr<Server> server(builder.BuildAndStart());
-    std::cout << "Server listening on " << server_address << std::endl;
+    // std::cout << "Server listening on " << server_address << std::endl;
     server->Wait();
 }
 
 int main(int argc, char** argv)
 {
+    thu::Task tsk(1, "Learn", "learn grpc", "today", 1, thu::Status::Inprogress);
+    std::cout << tsk.getDescription() << ' ' << tsk.getDuedate() << std::endl;
     RunServer();
     return 0;
 }
