@@ -1,0 +1,15 @@
+*.o
+*.exe
+*.out
+*.a
+*.so
+*.dll
+
+*~
+*.tmp
+*.bak
+
+.vscode/
+.idea/
+
+/build/
