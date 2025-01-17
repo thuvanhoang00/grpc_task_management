@@ -4,6 +4,7 @@
 #include "../include/grpcpp/grpcpp.h"
 #include "greet.grpc.pb.h"
 #include "../include/task.h"
+#include "../include/sqlmanager.h"
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -39,8 +40,8 @@ void RunServer()
 
 int main(int argc, char** argv)
 {
-    thu::Task tsk(1, "Learn", "learn grpc", "today", 1, thu::Status::Inprogress);
-    std::cout << tsk.getDescription() << ' ' << tsk.getDuedate() << std::endl;
+    thu::SQLManager pgsql;
+    pgsql.connect();
     RunServer();
     return 0;
 }
