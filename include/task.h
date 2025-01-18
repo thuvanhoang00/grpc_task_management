@@ -2,6 +2,8 @@
 
 namespace thu
 {
+#ifndef TASK_H
+#define TASK_H
 enum class Status
 {
     Pending,
@@ -17,6 +19,9 @@ public:
         : m_id(id), m_title(title), m_description(description), m_duedate(duedate), m_priority(priority), m_status(status)
     {}
     
+    void setTitle(const std::string& title);
+    void setDescription(const std::string& description);
+    void setDuedate(const std::string& duedate);
     std::string getTitle() const;
     std::string getDescription() const;
     std::string getDuedate() const;
@@ -28,4 +33,5 @@ private:
     int32_t m_priority;
     Status m_status;
 };
+#endif
 }

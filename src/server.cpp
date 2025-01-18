@@ -40,8 +40,16 @@ void RunServer()
 
 int main(int argc, char** argv)
 {
-    thu::SQLManager pgsql;
-    pgsql.connect();
+    thu::Task sample_task(1 
+        , "Insert"
+        , "Do insert Task into PostgreSQL"
+        , "01-18-2025"
+        , 1
+        , thu::Status::Completed
+    );
+
+    thu::SQLManager::getInstance().insert(sample_task);
+
     RunServer();
     return 0;
 }
