@@ -67,7 +67,10 @@ foreach(_target
     ${_target} 
     "../src/${_target}.cpp" 
     "../src/task.cpp"
-    "../src/sqlmanager.cpp")
+    "../src/sqlmanager.cpp"
+    "../src/admin.cpp"
+    "../src/user.cpp"
+    )
 
   target_link_libraries(${_target}
     hw_grpc_proto

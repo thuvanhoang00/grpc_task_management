@@ -1,9 +1,10 @@
+#ifndef TASK_H
+#define TASK_H
 #include <string>
 
 namespace thu
 {
-#ifndef TASK_H
-#define TASK_H
+
 enum class Status
 {
     Pending,
@@ -33,5 +34,5 @@ private:
     int32_t m_priority;
     Status m_status;
 };
-#endif
 }
+#endif

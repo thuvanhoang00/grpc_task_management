@@ -1,9 +1,10 @@
+#ifndef SQLMANAGER_H
+#define SQLMANAGER_H
 #include <pqxx/pqxx>
 #include "../include/task.h"
 namespace thu
 {
-#ifndef SQLMANAGER_H
-#define SQLMANAGER_H
+
 class SQLManager
 {
 public:
@@ -22,5 +23,5 @@ public:
 private:
     SQLManager(){};
 };
-#endif
 }
+#endif
