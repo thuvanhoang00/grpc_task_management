@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/MyBenchmark.dir/benchmark_test.cpp.o CMakeFiles/MyBenchmark.dir/home/thu/LearnGRPC/grpc_task_management/src/admin.cpp.o CMakeFiles/MyBenchmark.dir/home/thu/LearnGRPC/grpc_task_management/src/user.cpp.o -o MyBenchmark  -lbenchmark::benchmark 
