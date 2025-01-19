@@ -13,7 +13,7 @@ public:
     User(std::string name, uInt32 id) : m_name(name), m_id(id) {}
     uInt32 getId() const;
     std::string getName() const;
-    void receiveTask();
+    void receiveTask(const Task& task);
 
 private:
     std::string m_name;

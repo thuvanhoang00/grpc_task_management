@@ -14,16 +14,16 @@ void Admin::assign(uInt32 id, const Task& task )
     {
         if(user->getId() == id)
         {
-            user->receiveTask();
+            user->receiveTask(task);
         }
     }
 }
 
-Task Admin::createTask()
+Task Admin::createTask(std::string taskname, std::string taskdes)
 {
     return thu::Task(1 
-        , "Insert"
-        , "Do insert Task into PostgreSQL"
+        , taskname
+        , taskdes
         , "01-18-2025"
         , 1
         , thu::Status::Completed

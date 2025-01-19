@@ -5,6 +5,8 @@
 #include "greet.grpc.pb.h"
 #include "../include/task.h"
 #include "../include/sqlmanager.h"
+#include "../include/admin.h"
+#include "../include/user.h"
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -40,15 +42,20 @@ void RunServer()
 
 int main(int argc, char** argv)
 {
-    thu::Task sample_task(1 
-        , "Insert"
-        , "Do insert Task into PostgreSQL"
-        , "01-18-2025"
-        , 1
-        , thu::Status::Completed
-    );
+    // thu::Task sample_task(1 
+    //     , "Insert"
+    //     , "Do insert Task into PostgreSQL"
+    //     , "01-18-2025"
+    //     , 1
+    //     , thu::Status::Completed
+    // );
 
-    thu::SQLManager::getInstance().insert(sample_task);
+    // thu::SQLManager::getInstance().insert(sample_task);
+
+    thu::Admin adm("thu");
+    adm.addUser(std::make_shared<thu::User>("huy", 1));
+    auto task = adm.createTask("LearnCPP", "learncpp to pass FT class");
+    adm.assign(1, task);
 
     RunServer();
     return 0;
