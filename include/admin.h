@@ -16,8 +16,8 @@ public:
     void addUser(std::shared_ptr<User> pUser);
     void assign(uInt32 id, const Task& task );
     Task createTask(std::string taskname = "", std::string taskDes = "");
-    
-    void notify();
+    void receiveEvent();
+    void notify(const thu::Task& task);
 private:
     std::list<std::shared_ptr<User>> m_lstUser;
     std::string m_name;

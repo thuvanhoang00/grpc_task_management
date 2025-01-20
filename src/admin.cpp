@@ -1,5 +1,5 @@
 #include "../include/admin.h"
-
+#include <iostream>
 namespace thu
 {
 
@@ -30,9 +30,17 @@ Task Admin::createTask(std::string taskname, std::string taskdes)
     );
 }
 
-void Admin::notify()
+void Admin::notify(const thu::Task& task)
 {
+    for(const auto& e : m_lstUser)
+    {
+        e->receiveTask(task);
+    }
+}
 
+void Admin::receiveEvent()
+{
+    std::cout << m_name << " received event that user have done tasks\n";
 }
 
 }

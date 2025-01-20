@@ -1,4 +1,5 @@
 #include "../include/user.h"
+#include "../include/admin.h"
 #include <iostream>
 namespace thu
 {
@@ -16,6 +17,16 @@ void User::receiveTask(const Task& task)
 {
     std::cout << m_name << " receiving task: " << task.getTitle() << std::endl;
     m_lstTask.push(task);
+}
+
+void User::addAdm(const std::shared_ptr<Admin>& pAdm)
+{
+    m_pAdmin = pAdm;
+}
+
+void User::notify()
+{
+    m_pAdmin->receiveEvent();
 }
 
 } // namespace thu

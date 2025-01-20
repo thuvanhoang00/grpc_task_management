@@ -42,20 +42,17 @@ void RunServer()
 
 int main(int argc, char** argv)
 {
-    // thu::Task sample_task(1 
-    //     , "Insert"
-    //     , "Do insert Task into PostgreSQL"
-    //     , "01-18-2025"
-    //     , 1
-    //     , thu::Status::Completed
-    // );
+    std::shared_ptr<thu::Admin> adm = std::make_shared<thu::Admin>("A");
+    auto task = adm->createTask("LearnCPP", "learncpp to pass FT class");
+    std::shared_ptr<thu::User> usr = std::make_shared<thu::User>("B", 1);
+    adm->assign(1, task);
+    adm->addUser(usr);
 
-    // thu::SQLManager::getInstance().insert(sample_task);
-
-    thu::Admin adm("thu");
-    adm.addUser(std::make_shared<thu::User>("huy", 1));
-    auto task = adm.createTask("LearnCPP", "learncpp to pass FT class");
-    adm.assign(1, task);
+    // admin let user know they have been received task
+    adm->notify(task);
+    // when user done task, notify to admin
+    usr->addAdm(adm);
+    usr->notify();
 
     RunServer();
     return 0;
