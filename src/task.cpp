@@ -16,6 +16,10 @@ std::string Task::getDuedate() const
     return m_duedate;
 }
 
+int32_t Task::getId() const
+{
+    return m_id;
+}
 void Task::setTitle(const std::string& title)
 {
     m_title = title;

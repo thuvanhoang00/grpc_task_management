@@ -18,7 +18,7 @@ public:
     // SQLManager& operator=(SQLManager&&) = delete;
 
     void insert(const Task& task);
-
+    void read(Task& task);
 
 private:
     SQLManager(){};

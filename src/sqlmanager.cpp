@@ -86,7 +86,25 @@ void SQLManager::insert(const Task &task)
             insert.exec(sqlcommand);
             insert.commit();
             std::cout << "Inserted successfully!\n";
+        }
+        else
+        {
+            std::cerr << "Failed to connect to database!\n";
+        }
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}
 
+void SQLManager::read(Task& task)
+{
+    try
+    {
+        pqxx::connection conn("dbname=task_db user=task_user password=password123 host=localhost port=5432");
+        if (conn.is_open())
+        {
             // VERIFY
             // Create a non-transactional query
             pqxx::nontransaction verify_txn(conn);
@@ -95,13 +113,19 @@ void SQLManager::insert(const Task &task)
             pqxx::result res = verify_txn.exec("SELECT * FROM tasks;");
 
             // Display the results
-            for (const auto& row : res) {
-                std::cout << "ID: " << row["id"].c_str()
-                          << ", Title: " << row["title"].c_str()
-                          << ", Description: " << row["description"].c_str()
-                          << ", Due Date: " << row["due_date"].c_str()
-                          << ", Status: " << row["status"].c_str()
-                          << std::endl;
+            for (const auto &row : res)
+            {
+                // std::cout << "ID: " << row["id"].c_str()
+                //           << ", Title: " << row["title"].c_str()
+                //           << ", Description: " << row["description"].c_str()
+                //           << ", Due Date: " << row["due_date"].c_str()
+                //           << ", Status: " << row["status"].c_str()
+                //           << std::endl;
+                if(std::string(row["title"].c_str()).compare("LearnCPP") == 0)
+                {
+                    Task tsk(1, std::string(row["title"].c_str()), std::string(row["description"].c_str()), std::string(row["due_date"].c_str()), 1, Status::Completed);
+                    task = tsk;
+                }
             }
         }
         else

@@ -15,11 +15,12 @@ public:
     User(std::string name, uInt32 id) : m_name(name), m_id(id) {}
     uInt32 getId() const;
     std::string getName() const;
-    void receiveTask(const Task& task);
+    void receiveTask();
     
     void notify();
     void addAdm(const std::shared_ptr<Admin>& pAdm);
-
+    Task getTaskFromDB();
+    void doTask(const Task& task);
 private:
     std::string m_name;
     uInt32 m_id;

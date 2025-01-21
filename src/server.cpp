@@ -43,13 +43,13 @@ void RunServer()
 int main(int argc, char** argv)
 {
     std::shared_ptr<thu::Admin> adm = std::make_shared<thu::Admin>("A");
-    auto task = adm->createTask("LearnCPP", "learncpp to pass FT class");
     std::shared_ptr<thu::User> usr = std::make_shared<thu::User>("B", 1);
-    adm->assign(1, task);
-    adm->addUser(usr);
+    
+    adm->createTask("LearnCPP", "LearnCPP Today");
 
     // admin let user know they have been received task
-    adm->notify(task);
+    adm->addUser(usr);
+    adm->notifyUser(usr->getId());
     // when user done task, notify to admin
     usr->addAdm(adm);
     usr->notify();
