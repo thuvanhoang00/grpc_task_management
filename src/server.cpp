@@ -1,6 +1,8 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <thread>
+#include <future>
 #include "../include/grpcpp/grpcpp.h"
 #include "greet.grpc.pb.h"
 #include "../include/task.h"
@@ -45,14 +47,26 @@ int main(int argc, char** argv)
     std::shared_ptr<thu::Admin> adm = std::make_shared<thu::Admin>("A");
     std::shared_ptr<thu::User> usr = std::make_shared<thu::User>("B", 1);
     
-    adm->createTask("LearnCPP", "LearnCPP Today");
+    // adm->createTask("LearnCPP", "LearnCPP Today");
 
-    // admin let user know they have been received task
-    adm->addUser(usr);
-    adm->notifyUser(usr->getId());
-    // when user done task, notify to admin
-    usr->addAdm(adm);
-    usr->notify();
+    // // admin let user know they have been received task
+    // adm->addUser(usr);
+    // adm->notifyUser(usr->getId());
+    // // when user done task, notify to admin
+    // usr->addAdm(adm);
+    // usr->notify();
+
+    // Test conn on multithreading
+    thu::Task t;
+    std::future<void> insertFut = std::async(std::launch::async, &thu::SQLManager::insert, &thu::SQLManager::getInstance(), thu::Task());
+    insertFut.get();
+
+    std::future<void> readFut = std::async(std::launch::async, &thu::SQLManager::read, &thu::SQLManager::getInstance(), std::ref(t));
+    readFut.get(); 
+    // --> able to do
+    // -> so need mutex
+
+
 
     RunServer();
     return 0;

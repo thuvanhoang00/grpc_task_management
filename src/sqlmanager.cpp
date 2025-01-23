@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <thread>
 #include "../include/sqlmanager.h"
 
 namespace thu
@@ -62,6 +63,7 @@ void SQLManager::insert(const Task &task)
     try
     {
         pqxx::connection conn("dbname=task_db user=task_user password=password123 host=localhost port=5432");
+        std::this_thread::sleep_for(std::chrono::seconds(1));
         if (conn.is_open())
         {
             std::cout << "Connected to database: " << conn.dbname() << std::endl;
@@ -127,6 +129,8 @@ void SQLManager::read(Task& task)
                     task = tsk;
                 }
             }
+            std::this_thread::sleep_for(std::chrono::seconds(4));
+            std::cout << "Read successfully!\n";
         }
         else
         {
