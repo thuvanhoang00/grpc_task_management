@@ -9,6 +9,7 @@
 #include "../include/sqlmanager.h"
 #include "../include/admin.h"
 #include "../include/user.h"
+#include "../include/messagequeue.h"
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -57,6 +58,7 @@ int main(int argc, char** argv)
     // usr->notify();
 
     // Test conn on multithreading
+#if 0
     thu::Task t;
     std::future<void> insertFut = std::async(std::launch::async, &thu::SQLManager::insert, &thu::SQLManager::getInstance(), thu::Task());
     insertFut.get();
@@ -65,8 +67,30 @@ int main(int argc, char** argv)
     readFut.get(); 
     // --> able to do
     // -> so need mutex
+#endif
 
+    thu::Task temp;
+    thu::MutexMessageQueue<thu::Task> mutexTaskQueue;
+    std::thread threads[10];
+    for(int i = 0; i < 10; i++)
+    {
+        threads[i] = std::thread([&mutexTaskQueue, temp](){mutexTaskQueue.push(temp);});
+    }
+    for(int i = 0; i < 10; i++)
+    {
+        threads[i].join();
+    }
 
+    thu::AtomicMessageQueue<thu::Task> atomicTaskQueue;
+    std::thread atomic_threads[10];
+    for(int i = 0; i < 10; i++)
+    {
+        atomic_threads[i] = std::thread([&atomicTaskQueue, temp](){atomicTaskQueue.push(temp);});
+    }
+    for(int i = 0; i < 10; i++)
+    {
+        atomic_threads[i].join();
+    }
 
     RunServer();
     return 0;

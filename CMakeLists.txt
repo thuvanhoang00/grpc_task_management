@@ -70,6 +70,7 @@ foreach(_target
     "../src/sqlmanager.cpp"
     "../src/admin.cpp"
     "../src/user.cpp"
+    "../src/messagequeue.cpp"
     )
 
   target_link_libraries(${_target}
