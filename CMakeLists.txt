@@ -27,6 +27,8 @@ set(hw_grpc_hdrs "${CMAKE_CURRENT_BINARY_DIR}/../src/greet.grpc.pb.h")
 # message("----------------------------------")
 
 
+# Pthread
+find_package(Threads REQUIRED)
 
 # PostgreSQL
 find_package(PostgreSQL REQUIRED)
@@ -81,5 +83,6 @@ foreach(_target
     absl::log
     ${_REFLECTION}
     ${_GRPC_GRPCPP}
-    ${_PROTOBUF_LIBPROTOBUF})
+    ${_PROTOBUF_LIBPROTOBUF}
+    Threads::Threads)
 endforeach()

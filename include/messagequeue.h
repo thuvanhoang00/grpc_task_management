@@ -3,6 +3,7 @@
 #include <queue>
 #include <mutex>
 #include <atomic>
+#include <memory>
 namespace thu
 {
 
@@ -10,28 +11,31 @@ template<typename T>
 class MutexMessageQueue
 {
 public:
-    MutexMessageQueue(){}
-    size_t size();
+    MutexMessageQueue();
+    ~MutexMessageQueue();
+    size_t size() const ;
     T pop();
     void push(const T& e);
-    bool empty();
+    bool empty() const ;
 private:
-    std::queue<T>   m_queue;
-    std::mutex      m_mutex;;
+    // Pointer to implementation
+    class Impl; 
+    Impl* pimpl;
 };
 
 template<typename T>
 class AtomicMessageQueue
 {
 public:
-    AtomicMessageQueue() : flag(ATOMIC_FLAG_INIT) {}
+    AtomicMessageQueue();
+    ~AtomicMessageQueue();
     size_t size();
     T pop();
     void push(const T& e);
     bool empty();
 private:
-    std::queue<T> m_queue;
-    std::atomic_flag flag;
+    class Impl;
+    Impl* pimpl;
 };
 
 } // namespace thu

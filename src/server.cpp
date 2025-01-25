@@ -3,6 +3,7 @@
 #include <string>
 #include <thread>
 #include <future>
+#include <vector>
 #include "../include/grpcpp/grpcpp.h"
 #include "greet.grpc.pb.h"
 #include "../include/task.h"
@@ -42,6 +43,7 @@ void RunServer()
     // std::cout << "Server listening on " << server_address << std::endl;
     server->Wait();
 }
+
 
 int main(int argc, char** argv)
 {
