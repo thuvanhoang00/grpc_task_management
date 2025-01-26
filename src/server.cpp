@@ -106,13 +106,18 @@ int main(int argc, char** argv)
 #endif
     thu::MutexMessageQueue<thu::Task> mutexTaskQueue;
     thu::AtomicMessageQueue<thu::Task> atomicTaskQueue;
-#if 0
+#if 1
     do_push(mutexTaskQueue);
 
     std::thread t1(do_push, std::ref(mutexTaskQueue));
     std::thread t2(do_pop, std::ref(mutexTaskQueue));
     std::thread t3(do_push, std::ref(mutexTaskQueue));
     std::thread t4(do_pop, std::ref(mutexTaskQueue));
+    t1.join();
+    t2.join();
+    t3.join();
+    t4.join();
+    std::cout << "MUTEX_QUEUE SIZE: " << mutexTaskQueue.size() << std::endl;
 #endif
     do_Apush(atomicTaskQueue);
 
@@ -125,7 +130,7 @@ int main(int argc, char** argv)
     at3.join();
     at4.join();
 
-    std::cout << "SIZE: " << atomicTaskQueue.size() << std::endl;
+    std::cout << "ATOMIC_QUEUE SIZE: " << atomicTaskQueue.size() << std::endl;
 
     // RunServer();
     return 0;

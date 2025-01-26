@@ -129,6 +129,7 @@ public:
         while(flag.test_and_set());
         if(m_queue.empty()) throw std::runtime_error("AQueue is empty\n");
         auto ret = m_queue.front();
+        m_queue.pop();
         flag.clear(); // may be data race here
         return ret;
     }
