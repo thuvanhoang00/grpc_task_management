@@ -44,6 +44,40 @@ void RunServer()
     server->Wait();
 }
 
+#define MAX_ELEMENTS 10000000
+
+void do_push(thu::MutexMessageQueue<thu::Task>& msqueue)
+{
+    for(int i=0; i<MAX_ELEMENTS; i++)
+    {
+        msqueue.push(thu::Task());
+    }        
+}
+
+void do_pop(thu::MutexMessageQueue<thu::Task>& msqueue)
+{
+    for (int i = 0; i < MAX_ELEMENTS; i++)
+    {
+        msqueue.pop();
+    }
+}
+
+// thread cannot resolve overloading function->need another name
+void do_Apush(thu::AtomicMessageQueue<thu::Task>& msqueue)
+{
+    for(int i=0; i<MAX_ELEMENTS; i++)
+    {
+        msqueue.push(thu::Task());
+    }        
+}
+
+void do_Apop(thu::AtomicMessageQueue<thu::Task>& msqueue)
+{
+    for (int i = 0; i < MAX_ELEMENTS; i++)
+    {
+        msqueue.pop();
+    }
+}
 
 int main(int argc, char** argv)
 {
@@ -70,30 +104,29 @@ int main(int argc, char** argv)
     // --> able to do
     // -> so need mutex
 #endif
-
-    thu::Task temp;
     thu::MutexMessageQueue<thu::Task> mutexTaskQueue;
-    std::thread threads[10];
-    for(int i = 0; i < 10; i++)
-    {
-        threads[i] = std::thread([&mutexTaskQueue, temp](){mutexTaskQueue.push(temp);});
-    }
-    for(int i = 0; i < 10; i++)
-    {
-        threads[i].join();
-    }
-
     thu::AtomicMessageQueue<thu::Task> atomicTaskQueue;
-    std::thread atomic_threads[10];
-    for(int i = 0; i < 10; i++)
-    {
-        atomic_threads[i] = std::thread([&atomicTaskQueue, temp](){atomicTaskQueue.push(temp);});
-    }
-    for(int i = 0; i < 10; i++)
-    {
-        atomic_threads[i].join();
-    }
+#if 0
+    do_push(mutexTaskQueue);
 
-    RunServer();
+    std::thread t1(do_push, std::ref(mutexTaskQueue));
+    std::thread t2(do_pop, std::ref(mutexTaskQueue));
+    std::thread t3(do_push, std::ref(mutexTaskQueue));
+    std::thread t4(do_pop, std::ref(mutexTaskQueue));
+#endif
+    do_Apush(atomicTaskQueue);
+
+    std::thread at1(do_Apush, std::ref(atomicTaskQueue));
+    std::thread at2(do_Apop, std::ref(atomicTaskQueue));
+    std::thread at3(do_Apush, std::ref(atomicTaskQueue));
+    std::thread at4(do_Apop, std::ref(atomicTaskQueue));
+    at1.join();
+    at2.join();
+    at3.join();
+    at4.join();
+
+    std::cout << "SIZE: " << atomicTaskQueue.size() << std::endl;
+
+    // RunServer();
     return 0;
 }

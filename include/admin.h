@@ -23,7 +23,5 @@ private:
     std::list<std::shared_ptr<User>> m_lstUser;
     std::string m_name;
 };
-
-
 }
 #endif
