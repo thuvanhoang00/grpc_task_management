@@ -56,6 +56,12 @@ extern HelloReplyDefaultTypeInternal _HelloReply_default_instance_;
 class HelloRequest;
 struct HelloRequestDefaultTypeInternal;
 extern HelloRequestDefaultTypeInternal _HelloRequest_default_instance_;
+class TaskRequest;
+struct TaskRequestDefaultTypeInternal;
+extern TaskRequestDefaultTypeInternal _TaskRequest_default_instance_;
+class TaskResponse;
+struct TaskResponseDefaultTypeInternal;
+extern TaskResponseDefaultTypeInternal _TaskResponse_default_instance_;
 }  // namespace greet
 namespace google {
 namespace protobuf {
@@ -67,6 +73,360 @@ namespace greet {
 // ===================================================================
 
 
+// -------------------------------------------------------------------
+
+class TaskResponse final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:greet.TaskResponse) */ {
+ public:
+  inline TaskResponse() : TaskResponse(nullptr) {}
+  ~TaskResponse() override;
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR TaskResponse(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline TaskResponse(const TaskResponse& from) : TaskResponse(nullptr, from) {}
+  inline TaskResponse(TaskResponse&& from) noexcept
+      : TaskResponse(nullptr, std::move(from)) {}
+  inline TaskResponse& operator=(const TaskResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TaskResponse& operator=(TaskResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const TaskResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const TaskResponse* internal_default_instance() {
+    return reinterpret_cast<const TaskResponse*>(
+        &_TaskResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 3;
+  friend void swap(TaskResponse& a, TaskResponse& b) { a.Swap(&b); }
+  inline void Swap(TaskResponse* other) {
+    if (other == this) return;
+#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr && GetArena() == other->GetArena()) {
+#else   // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TaskResponse* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  TaskResponse* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return ::google::protobuf::Message::DefaultConstruct<TaskResponse>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const TaskResponse& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const TaskResponse& from) { TaskResponse::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() final;
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void InternalSwap(TaskResponse* other);
+ private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() { return "greet.TaskResponse"; }
+
+ protected:
+  explicit TaskResponse(::google::protobuf::Arena* arena);
+  TaskResponse(::google::protobuf::Arena* arena, const TaskResponse& from);
+  TaskResponse(::google::protobuf::Arena* arena, TaskResponse&& from) noexcept
+      : TaskResponse(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::Message::ClassData* GetClassData() const final;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kMessageFieldNumber = 1,
+  };
+  // string message = 1;
+  void clear_message() ;
+  const std::string& message() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_message(Arg_&& arg, Args_... args);
+  std::string* mutable_message();
+  PROTOBUF_NODISCARD std::string* release_message();
+  void set_allocated_message(std::string* value);
+
+  private:
+  const std::string& _internal_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_message(
+      const std::string& value);
+  std::string* _internal_mutable_message();
+
+  public:
+  // @@protoc_insertion_point(class_scope:greet.TaskResponse)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      34, 2>
+      _table_;
+
+  static constexpr const void* _raw_default_instance_ =
+      &_TaskResponse_default_instance_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const TaskResponse& from_msg);
+    ::google::protobuf::internal::ArenaStringPtr message_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_greet_2eproto;
+};
+// -------------------------------------------------------------------
+
+class TaskRequest final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:greet.TaskRequest) */ {
+ public:
+  inline TaskRequest() : TaskRequest(nullptr) {}
+  ~TaskRequest() override;
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR TaskRequest(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline TaskRequest(const TaskRequest& from) : TaskRequest(nullptr, from) {}
+  inline TaskRequest(TaskRequest&& from) noexcept
+      : TaskRequest(nullptr, std::move(from)) {}
+  inline TaskRequest& operator=(const TaskRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TaskRequest& operator=(TaskRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const TaskRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const TaskRequest* internal_default_instance() {
+    return reinterpret_cast<const TaskRequest*>(
+        &_TaskRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 2;
+  friend void swap(TaskRequest& a, TaskRequest& b) { a.Swap(&b); }
+  inline void Swap(TaskRequest* other) {
+    if (other == this) return;
+#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr && GetArena() == other->GetArena()) {
+#else   // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TaskRequest* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  TaskRequest* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return ::google::protobuf::Message::DefaultConstruct<TaskRequest>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const TaskRequest& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const TaskRequest& from) { TaskRequest::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() final;
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void InternalSwap(TaskRequest* other);
+ private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() { return "greet.TaskRequest"; }
+
+ protected:
+  explicit TaskRequest(::google::protobuf::Arena* arena);
+  TaskRequest(::google::protobuf::Arena* arena, const TaskRequest& from);
+  TaskRequest(::google::protobuf::Arena* arena, TaskRequest&& from) noexcept
+      : TaskRequest(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::Message::ClassData* GetClassData() const final;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kClientIdFieldNumber = 1,
+  };
+  // string client_id = 1;
+  void clear_client_id() ;
+  const std::string& client_id() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_client_id(Arg_&& arg, Args_... args);
+  std::string* mutable_client_id();
+  PROTOBUF_NODISCARD std::string* release_client_id();
+  void set_allocated_client_id(std::string* value);
+
+  private:
+  const std::string& _internal_client_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_client_id(
+      const std::string& value);
+  std::string* _internal_mutable_client_id();
+
+  public:
+  // @@protoc_insertion_point(class_scope:greet.TaskRequest)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      35, 2>
+      _table_;
+
+  static constexpr const void* _raw_default_instance_ =
+      &_TaskRequest_default_instance_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const TaskRequest& from_msg);
+    ::google::protobuf::internal::ArenaStringPtr client_id_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_greet_2eproto;
+};
 // -------------------------------------------------------------------
 
 class HelloRequest final : public ::google::protobuf::Message
@@ -540,6 +900,114 @@ inline void HelloReply::set_allocated_message(std::string* value) {
         }
   #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:greet.HelloReply.message)
+}
+
+// -------------------------------------------------------------------
+
+// TaskRequest
+
+// string client_id = 1;
+inline void TaskRequest::clear_client_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.client_id_.ClearToEmpty();
+}
+inline const std::string& TaskRequest::client_id() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:greet.TaskRequest.client_id)
+  return _internal_client_id();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void TaskRequest::set_client_id(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.client_id_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:greet.TaskRequest.client_id)
+}
+inline std::string* TaskRequest::mutable_client_id() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_client_id();
+  // @@protoc_insertion_point(field_mutable:greet.TaskRequest.client_id)
+  return _s;
+}
+inline const std::string& TaskRequest::_internal_client_id() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.client_id_.Get();
+}
+inline void TaskRequest::_internal_set_client_id(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.client_id_.Set(value, GetArena());
+}
+inline std::string* TaskRequest::_internal_mutable_client_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.client_id_.Mutable( GetArena());
+}
+inline std::string* TaskRequest::release_client_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:greet.TaskRequest.client_id)
+  return _impl_.client_id_.Release();
+}
+inline void TaskRequest::set_allocated_client_id(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.client_id_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.client_id_.IsDefault()) {
+          _impl_.client_id_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:greet.TaskRequest.client_id)
+}
+
+// -------------------------------------------------------------------
+
+// TaskResponse
+
+// string message = 1;
+inline void TaskResponse::clear_message() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.message_.ClearToEmpty();
+}
+inline const std::string& TaskResponse::message() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:greet.TaskResponse.message)
+  return _internal_message();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void TaskResponse::set_message(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.message_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:greet.TaskResponse.message)
+}
+inline std::string* TaskResponse::mutable_message() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_message();
+  // @@protoc_insertion_point(field_mutable:greet.TaskResponse.message)
+  return _s;
+}
+inline const std::string& TaskResponse::_internal_message() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.message_.Get();
+}
+inline void TaskResponse::_internal_set_message(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.message_.Set(value, GetArena());
+}
+inline std::string* TaskResponse::_internal_mutable_message() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.message_.Mutable( GetArena());
+}
+inline std::string* TaskResponse::release_message() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:greet.TaskResponse.message)
+  return _impl_.message_.Release();
+}
+inline void TaskResponse::set_allocated_message(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.message_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.message_.IsDefault()) {
+          _impl_.message_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:greet.TaskResponse.message)
 }
 
 #ifdef __GNUC__

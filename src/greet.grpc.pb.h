@@ -44,12 +44,23 @@ class Greeter final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::greet::HelloReply>> PrepareAsyncSayHello(::grpc::ClientContext* context, const ::greet::HelloRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::greet::HelloReply>>(PrepareAsyncSayHelloRaw(context, request, cq));
     }
+    // Sends a task request.
+    virtual ::grpc::Status RequestTask(::grpc::ClientContext* context, const ::greet::TaskRequest& request, ::greet::TaskResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::greet::TaskResponse>> AsyncRequestTask(::grpc::ClientContext* context, const ::greet::TaskRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::greet::TaskResponse>>(AsyncRequestTaskRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::greet::TaskResponse>> PrepareAsyncRequestTask(::grpc::ClientContext* context, const ::greet::TaskRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::greet::TaskResponse>>(PrepareAsyncRequestTaskRaw(context, request, cq));
+    }
     class async_interface {
      public:
       virtual ~async_interface() {}
       // Sends a greeting.
       virtual void SayHello(::grpc::ClientContext* context, const ::greet::HelloRequest* request, ::greet::HelloReply* response, std::function<void(::grpc::Status)>) = 0;
       virtual void SayHello(::grpc::ClientContext* context, const ::greet::HelloRequest* request, ::greet::HelloReply* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      // Sends a task request.
+      virtual void RequestTask(::grpc::ClientContext* context, const ::greet::TaskRequest* request, ::greet::TaskResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void RequestTask(::grpc::ClientContext* context, const ::greet::TaskRequest* request, ::greet::TaskResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
@@ -57,6 +68,8 @@ class Greeter final {
    private:
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::greet::HelloReply>* AsyncSayHelloRaw(::grpc::ClientContext* context, const ::greet::HelloRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::greet::HelloReply>* PrepareAsyncSayHelloRaw(::grpc::ClientContext* context, const ::greet::HelloRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::greet::TaskResponse>* AsyncRequestTaskRaw(::grpc::ClientContext* context, const ::greet::TaskRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::greet::TaskResponse>* PrepareAsyncRequestTaskRaw(::grpc::ClientContext* context, const ::greet::TaskRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -68,11 +81,20 @@ class Greeter final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::greet::HelloReply>> PrepareAsyncSayHello(::grpc::ClientContext* context, const ::greet::HelloRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::greet::HelloReply>>(PrepareAsyncSayHelloRaw(context, request, cq));
     }
+    ::grpc::Status RequestTask(::grpc::ClientContext* context, const ::greet::TaskRequest& request, ::greet::TaskResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::greet::TaskResponse>> AsyncRequestTask(::grpc::ClientContext* context, const ::greet::TaskRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::greet::TaskResponse>>(AsyncRequestTaskRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::greet::TaskResponse>> PrepareAsyncRequestTask(::grpc::ClientContext* context, const ::greet::TaskRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::greet::TaskResponse>>(PrepareAsyncRequestTaskRaw(context, request, cq));
+    }
     class async final :
       public StubInterface::async_interface {
      public:
       void SayHello(::grpc::ClientContext* context, const ::greet::HelloRequest* request, ::greet::HelloReply* response, std::function<void(::grpc::Status)>) override;
       void SayHello(::grpc::ClientContext* context, const ::greet::HelloRequest* request, ::greet::HelloReply* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void RequestTask(::grpc::ClientContext* context, const ::greet::TaskRequest* request, ::greet::TaskResponse* response, std::function<void(::grpc::Status)>) override;
+      void RequestTask(::grpc::ClientContext* context, const ::greet::TaskRequest* request, ::greet::TaskResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -86,7 +108,10 @@ class Greeter final {
     class async async_stub_{this};
     ::grpc::ClientAsyncResponseReader< ::greet::HelloReply>* AsyncSayHelloRaw(::grpc::ClientContext* context, const ::greet::HelloRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::greet::HelloReply>* PrepareAsyncSayHelloRaw(::grpc::ClientContext* context, const ::greet::HelloRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::greet::TaskResponse>* AsyncRequestTaskRaw(::grpc::ClientContext* context, const ::greet::TaskRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::greet::TaskResponse>* PrepareAsyncRequestTaskRaw(::grpc::ClientContext* context, const ::greet::TaskRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_SayHello_;
+    const ::grpc::internal::RpcMethod rpcmethod_RequestTask_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -96,6 +121,8 @@ class Greeter final {
     virtual ~Service();
     // Sends a greeting.
     virtual ::grpc::Status SayHello(::grpc::ServerContext* context, const ::greet::HelloRequest* request, ::greet::HelloReply* response);
+    // Sends a task request.
+    virtual ::grpc::Status RequestTask(::grpc::ServerContext* context, const ::greet::TaskRequest* request, ::greet::TaskResponse* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_SayHello : public BaseClass {
@@ -117,7 +144,27 @@ class Greeter final {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_SayHello<Service > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_RequestTask : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RequestTask() {
+      ::grpc::Service::MarkMethodAsync(1);
+    }
+    ~WithAsyncMethod_RequestTask() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RequestTask(::grpc::ServerContext* /*context*/, const ::greet::TaskRequest* /*request*/, ::greet::TaskResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRequestTask(::grpc::ServerContext* context, ::greet::TaskRequest* request, ::grpc::ServerAsyncResponseWriter< ::greet::TaskResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_SayHello<WithAsyncMethod_RequestTask<Service > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_SayHello : public BaseClass {
    private:
@@ -145,7 +192,34 @@ class Greeter final {
     virtual ::grpc::ServerUnaryReactor* SayHello(
       ::grpc::CallbackServerContext* /*context*/, const ::greet::HelloRequest* /*request*/, ::greet::HelloReply* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_SayHello<Service > CallbackService;
+  template <class BaseClass>
+  class WithCallbackMethod_RequestTask : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RequestTask() {
+      ::grpc::Service::MarkMethodCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::greet::TaskRequest, ::greet::TaskResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::greet::TaskRequest* request, ::greet::TaskResponse* response) { return this->RequestTask(context, request, response); }));}
+    void SetMessageAllocatorFor_RequestTask(
+        ::grpc::MessageAllocator< ::greet::TaskRequest, ::greet::TaskResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::greet::TaskRequest, ::greet::TaskResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_RequestTask() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RequestTask(::grpc::ServerContext* /*context*/, const ::greet::TaskRequest* /*request*/, ::greet::TaskResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* RequestTask(
+      ::grpc::CallbackServerContext* /*context*/, const ::greet::TaskRequest* /*request*/, ::greet::TaskResponse* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_SayHello<WithCallbackMethod_RequestTask<Service > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_SayHello : public BaseClass {
@@ -160,6 +234,23 @@ class Greeter final {
     }
     // disable synchronous version of this method
     ::grpc::Status SayHello(::grpc::ServerContext* /*context*/, const ::greet::HelloRequest* /*request*/, ::greet::HelloReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RequestTask : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RequestTask() {
+      ::grpc::Service::MarkMethodGeneric(1);
+    }
+    ~WithGenericMethod_RequestTask() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RequestTask(::grpc::ServerContext* /*context*/, const ::greet::TaskRequest* /*request*/, ::greet::TaskResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -185,6 +276,26 @@ class Greeter final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_RequestTask : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RequestTask() {
+      ::grpc::Service::MarkMethodRaw(1);
+    }
+    ~WithRawMethod_RequestTask() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RequestTask(::grpc::ServerContext* /*context*/, const ::greet::TaskRequest* /*request*/, ::greet::TaskResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRequestTask(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawCallbackMethod_SayHello : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -204,6 +315,28 @@ class Greeter final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual ::grpc::ServerUnaryReactor* SayHello(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RequestTask : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RequestTask() {
+      ::grpc::Service::MarkMethodRawCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->RequestTask(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_RequestTask() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RequestTask(::grpc::ServerContext* /*context*/, const ::greet::TaskRequest* /*request*/, ::greet::TaskResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* RequestTask(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
@@ -233,9 +366,36 @@ class Greeter final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedSayHello(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::greet::HelloRequest,::greet::HelloReply>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_SayHello<Service > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_RequestTask : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_RequestTask() {
+      ::grpc::Service::MarkMethodStreamed(1,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::greet::TaskRequest, ::greet::TaskResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::greet::TaskRequest, ::greet::TaskResponse>* streamer) {
+                       return this->StreamedRequestTask(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_RequestTask() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RequestTask(::grpc::ServerContext* /*context*/, const ::greet::TaskRequest* /*request*/, ::greet::TaskResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedRequestTask(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::greet::TaskRequest,::greet::TaskResponse>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_SayHello<WithStreamedUnaryMethod_RequestTask<Service > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_SayHello<Service > StreamedService;
+  typedef WithStreamedUnaryMethod_SayHello<WithStreamedUnaryMethod_RequestTask<Service > > StreamedService;
 };
 
 }  // namespace greet

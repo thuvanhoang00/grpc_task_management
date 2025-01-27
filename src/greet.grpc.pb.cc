@@ -23,6 +23,7 @@ namespace greet {
 
 static const char* Greeter_method_names[] = {
   "/greet.Greeter/SayHello",
+  "/greet.Greeter/RequestTask",
 };
 
 std::unique_ptr< Greeter::Stub> Greeter::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -33,6 +34,7 @@ std::unique_ptr< Greeter::Stub> Greeter::NewStub(const std::shared_ptr< ::grpc::
 
 Greeter::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
   : channel_(channel), rpcmethod_SayHello_(Greeter_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_RequestTask_(Greeter_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status Greeter::Stub::SayHello(::grpc::ClientContext* context, const ::greet::HelloRequest& request, ::greet::HelloReply* response) {
@@ -58,6 +60,29 @@ void Greeter::Stub::async::SayHello(::grpc::ClientContext* context, const ::gree
   return result;
 }
 
+::grpc::Status Greeter::Stub::RequestTask(::grpc::ClientContext* context, const ::greet::TaskRequest& request, ::greet::TaskResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::greet::TaskRequest, ::greet::TaskResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_RequestTask_, context, request, response);
+}
+
+void Greeter::Stub::async::RequestTask(::grpc::ClientContext* context, const ::greet::TaskRequest* request, ::greet::TaskResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::greet::TaskRequest, ::greet::TaskResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_RequestTask_, context, request, response, std::move(f));
+}
+
+void Greeter::Stub::async::RequestTask(::grpc::ClientContext* context, const ::greet::TaskRequest* request, ::greet::TaskResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_RequestTask_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::greet::TaskResponse>* Greeter::Stub::PrepareAsyncRequestTaskRaw(::grpc::ClientContext* context, const ::greet::TaskRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::greet::TaskResponse, ::greet::TaskRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_RequestTask_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::greet::TaskResponse>* Greeter::Stub::AsyncRequestTaskRaw(::grpc::ClientContext* context, const ::greet::TaskRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncRequestTaskRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 Greeter::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Greeter_method_names[0],
@@ -69,12 +94,29 @@ Greeter::Service::Service() {
              ::greet::HelloReply* resp) {
                return service->SayHello(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Greeter_method_names[1],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Greeter::Service, ::greet::TaskRequest, ::greet::TaskResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Greeter::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::greet::TaskRequest* req,
+             ::greet::TaskResponse* resp) {
+               return service->RequestTask(ctx, req, resp);
+             }, this)));
 }
 
 Greeter::Service::~Service() {
 }
 
 ::grpc::Status Greeter::Service::SayHello(::grpc::ServerContext* context, const ::greet::HelloRequest* request, ::greet::HelloReply* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Greeter::Service::RequestTask(::grpc::ServerContext* context, const ::greet::TaskRequest* request, ::greet::TaskResponse* response) {
   (void) context;
   (void) request;
   (void) response;

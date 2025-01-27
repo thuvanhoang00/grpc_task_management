@@ -35,5 +35,21 @@ void Task::setDuedate(const std::string& date)
     m_duedate = date;
 }
 
+std::string Task::taskToString()
+{
+    std::string ret;
+    ret += "id: ";
+    ret += std::to_string(m_id);
+    ret += " ";
+    ret += m_title;
+    ret += " ";
+    ret += m_description;
+    ret += " ";
+    ret += m_duedate;
+    ret += " priority: ";
+    ret += std::to_string(m_priority);
+    ret += " status: ";
+    ret += std::to_string(static_cast<int>(m_status));
+}
 }
 

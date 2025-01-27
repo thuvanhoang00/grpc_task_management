@@ -3,14 +3,15 @@
 #include <string>
 #include <grpcpp/grpcpp.h>
 #include "greet.grpc.pb.h"
-
+#include "../include/task.h"
 using grpc::Channel;
 using grpc::ClientContext;
 using grpc::Status;
 using greet::Greeter;
 using greet::HelloReply;
 using greet::HelloRequest;
-
+using greet::TaskRequest;
+using greet::TaskResponse;
 class GreeterClient
 {
 public:
@@ -36,6 +37,27 @@ public:
         }
     }
 
+    std::string RequestTask(const std::string& id)
+    {
+        TaskRequest request;
+        request.set_client_id(id);
+
+        TaskResponse response;
+        ClientContext context;
+
+        Status status = m_stub->RequestTask(&context, request, &response);
+
+        if(status.ok())
+        {
+            return response.message();
+        }
+        else
+        {
+            std::cerr << "gRPC call failed: " << status.error_message() << std::endl;
+            return "gRPC call failed";
+        }
+    }
+
 private:
     std::unique_ptr<Greeter::Stub> m_stub;
 };
@@ -46,7 +68,8 @@ int main(int argc, char** argv)
     GreeterClient client(grpc::CreateChannel(target_address, grpc::InsecureChannelCredentials()));
     std::string user;
     if(argc>1) user = std::string(argv[1]);
-    std::cout << "Client received: " << client.SayHello(user) << std::endl;
+    std::string id = "1";
+    std::cout << "Client received: " << client.RequestTask(id) << std::endl;
 
     return 0;
 }

@@ -28,6 +28,7 @@ public:
     std::string getTitle() const;
     std::string getDescription() const;
     std::string getDuedate() const;
+    std::string taskToString();
 private:
     int32_t m_id;
     std::string m_title;
