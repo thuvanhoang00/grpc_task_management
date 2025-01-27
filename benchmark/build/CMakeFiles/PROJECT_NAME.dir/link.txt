@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/PROJECT_NAME.dir/benchmark_test.cpp.o CMakeFiles/PROJECT_NAME.dir/home/thu/LearnGRPC/grpc_task_management/src/admin.cpp.o CMakeFiles/PROJECT_NAME.dir/home/thu/LearnGRPC/grpc_task_management/src/user.cpp.o CMakeFiles/PROJECT_NAME.dir/home/thu/LearnGRPC/grpc_task_management/src/task.cpp.o -o PROJECT_NAME  /usr/local/lib/libbenchmark.a -lrt 

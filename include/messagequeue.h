@@ -6,6 +6,8 @@
 #include <memory>
 #include <stdexcept>
 #include <iostream>
+#include <thread>
+
 namespace thu
 {
 
