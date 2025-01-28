@@ -40,15 +40,15 @@ std::string Task::taskToString()
     std::string ret;
     ret += "id: ";
     ret += std::to_string(m_id);
-    ret += " ";
+    ret += " , title: ";
     ret += m_title;
-    ret += " ";
+    ret += " , description: ";
     ret += m_description;
-    ret += " ";
+    ret += " , duedate: ";
     ret += m_duedate;
-    ret += " priority: ";
+    ret += " , priority: ";
     ret += std::to_string(m_priority);
-    ret += " status: ";
+    ret += " , status: ";
     ret += std::to_string(static_cast<int>(m_status));
 
     return ret;

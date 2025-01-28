@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <thread>
 #include <grpcpp/grpcpp.h>
 #include "greet.grpc.pb.h"
 #include "../include/task.h"
@@ -66,10 +67,23 @@ int main(int argc, char** argv)
 {
     std::string target_address = "localhost:50051";
     GreeterClient client(grpc::CreateChannel(target_address, grpc::InsecureChannelCredentials()));
-    std::string user;
-    if(argc>1) user = std::string(argv[1]);
-    std::string id = "1";
-    std::cout << "Client received: " << client.RequestTask(id) << std::endl;
+    std::string id;
+    if(argc>1) id = std::string(argv[1]);    
+    auto sendRequest = [&](){
+        for(int i=0; i < 100000; i++)
+        {
+            std::cout << "Client received: " << client.RequestTask(id) << std::endl;
+        }
+    };
+
+    std::thread t1(sendRequest);
+    std::thread t2(sendRequest);
+    std::thread t3(sendRequest);
+    std::thread t4(sendRequest);
+    t1.join();
+    t2.join();
+    t3.join();
+    t4.join();
 
     return 0;
 }

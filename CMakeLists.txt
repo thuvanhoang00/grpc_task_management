@@ -72,6 +72,7 @@ foreach(_target
     "../src/sqlmanager.cpp"
     "../src/admin.cpp"
     "../src/user.cpp"
+    "../src/requesthandler.cpp"
     )
 
   target_link_libraries(${_target}

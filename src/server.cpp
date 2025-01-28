@@ -11,7 +11,7 @@
 #include "../include/admin.h"
 #include "../include/user.h"
 #include "../include/messagequeue.h"
-
+#include "../include/requesthandler.h"
 using grpc::Server;
 using grpc::ServerBuilder;
 using grpc::ServerContext;
@@ -21,6 +21,9 @@ using greet::HelloReply;
 using greet::HelloRequest;
 using greet::TaskRequest;
 using greet::TaskResponse;
+
+#define ATOMIC_QUEUE
+int task_id = 0;
 
 class GreeterServiceImpl final : public Greeter::Service
 {
@@ -32,11 +35,29 @@ class GreeterServiceImpl final : public Greeter::Service
     }
     Status RequestTask(ServerContext* context, const TaskRequest* request, TaskResponse* response) override
     {
-        thu::Task task(1, "learn cpp", "learn cpp everyday", "today", 1, thu::Status::Completed);
+#ifdef ATOMIC_QUEUE
+        
+        m_handler.receivedRequest();
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        thu::Task task(m_handler.respondRequest(), "learn cpp", "learn cpp everyday", "today", 1, thu::Status::Completed);
         auto str = task.taskToString();
         response->set_message(str);
         return Status::OK;
+#else
+        // need to protect task id from multi request
+        task_id++;
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+        thu::Task task(task_id, "learn cpp", "learn cpp everyday", "today", 1, thu::Status::Completed);
+        auto str = task.taskToString();
+        response->set_message(str);
+        return Status::OK;
+#endif
     }
+
+private:
+    thu::RequestHandler m_handler;
 };
 
 void RunServer()
