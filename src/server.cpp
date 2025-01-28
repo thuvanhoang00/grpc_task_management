@@ -33,8 +33,8 @@ class GreeterServiceImpl final : public Greeter::Service
     Status RequestTask(ServerContext* context, const TaskRequest* request, TaskResponse* response) override
     {
         thu::Task task(1, "learn cpp", "learn cpp everyday", "today", 1, thu::Status::Completed);
-
-        response->set_message(task.taskToString());
+        auto str = task.taskToString();
+        response->set_message(str);
         return Status::OK;
     }
 };

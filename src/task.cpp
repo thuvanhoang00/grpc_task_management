@@ -50,6 +50,8 @@ std::string Task::taskToString()
     ret += std::to_string(m_priority);
     ret += " status: ";
     ret += std::to_string(static_cast<int>(m_status));
+
+    return ret;
 }
 }
 
